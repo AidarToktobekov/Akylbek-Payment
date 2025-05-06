@@ -3,11 +3,13 @@ import {Avatar, Button, Container, TextField, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {login} from '../../features/user/userThunk.js';
-import {selectLoginLoading} from '../../features/user/userSlice.js';
+import {selectLoginLoading, selectUser} from '../../features/user/userSlice.js';
 import LockIcon from '@mui/icons-material/Lock';
 import {deepPurple} from '@mui/material/colors';
 
 const UserLogin = () => {
+    const user = useAppSelector(selectUser);
+    console.log(user);
     const dispatch = useAppDispatch();
     const loading = useAppSelector(selectLoginLoading);
     const navigate = useNavigate();

@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { login, register } from './userThunk';
 
 const initialState = {
-    user: null,
+    user: {
+        message: "Login successful",
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJ1c2VybmFtZSI6ImN3YmFycyIsImlhdCI6MTc0NjUyNjkwMywiZXhwIjoxNzQ2NTMwNTAzfQ.KqB1tQLCNAXtbgHelXcb7QY0RBQAtzHbl1FBqsoKRTw"
+    },
     loginLoading: false,
     registerLoading: false,
 };

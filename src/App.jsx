@@ -8,66 +8,67 @@ import ProtectedRoute from "./Components/ProtactedRoute/ProtectedRoute.jsx";
 import PaymentManual from "./Containers/PaymentManual/PaymentManual.jsx";
 import {useAppSelector} from "./app/hooks.js";
 import {selectUser} from "./features/user/userSlice.js";
+import MainPage from "./Containers/MainPage/MainPage.jsx";
 
 function App() {
-
     const user = useAppSelector(selectUser);
-
-  return (
-      <>
-        <Layout>
-          <Routes>
-            <Route
-                path="/"
-                element={
-                  <>
-                  </>
-                }
-            />
-            <Route
-                path="/sign-in"
-                element={
-                  <>
-                    <UserLogin></UserLogin>
-                  </>
-                }
-            />
-            <Route
-                path="/sign-up"
-                element={
-                  <>
-                    <UserRegister></UserRegister>
-                  </>
-                }
-            />
-              <Route
-                  path="/payment_manual"
-                  element={
-                      <>
-                          <ProtectedRoute isAllowed={user}>
-                              <PaymentManual/>
-                          </ProtectedRoute>
-                      </>
-                  }
-              />
-              <Route
-                  path="*"
-                  element={
-                      <Typography
-                          variant={'h1'}
-                          sx={{
-                              textAlign: 'center',
-                              margin: '20px 0',
-                          }}
-                      >
-                          Not found
-                      </Typography>
-                  }
-              />
-          </Routes>
-        </Layout>
-      </>
-  );
+    return (
+        <>
+            <Layout>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                        <>
+                            <ProtectedRoute isAllowed={user}>
+                                <MainPage/>
+                            </ProtectedRoute>
+                        </>
+                    }/>
+                    <Route
+                        path="/sign-in"
+                        element={
+                          <>
+                            <UserLogin></UserLogin>
+                          </>
+                        }
+                    />
+                    <Route
+                        path="/sign-up"
+                        element={
+                          <>
+                            <UserRegister></UserRegister>
+                          </>
+                        }
+                    />
+                      <Route
+                          path="/payment_manual"
+                          element={
+                              <>
+                                  <ProtectedRoute isAllowed={user}>
+                                      <PaymentManual/>
+                                  </ProtectedRoute>
+                              </>
+                          }
+                      />
+                      <Route
+                          path="*"
+                          element={
+                              <Typography
+                                  variant={'h1'}
+                                  sx={{
+                                      textAlign: 'center',
+                                      margin: '20px 0',
+                                  }}
+                              >
+                                  Not found
+                              </Typography>
+                          }
+                      />
+                </Routes>
+            </Layout>
+        </>
+    );
 }
 
 export default App;

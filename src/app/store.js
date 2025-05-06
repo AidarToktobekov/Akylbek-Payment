@@ -14,7 +14,7 @@ import { userReducer } from '../features/user/userSlice.js';
 import {paymentsReducer} from "../features/payments/paymentsSlice.js";
 
 const usersPersistConfig = {
-  key: 'callCards:user',
+  key: 'payment:user',
   storage,
   whitelist: ['user'],
 };
