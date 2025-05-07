@@ -1,5 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.js";
+import {isAxiosError} from "axios";
 
 export const createPaymentManual = createAsyncThunk(
     "createPaymentManual",
@@ -8,8 +9,8 @@ export const createPaymentManual = createAsyncThunk(
             const {data: res} = await axiosApi.post("/paymentManual", paymentManualMutation);
 
             return res.data;
-        }catch(error){
-            throw error;
+        }catch(e){
+            throw new Error(e);
         }
     }
 );

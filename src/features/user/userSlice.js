@@ -2,12 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { login, register } from './userThunk';
 
 const initialState = {
-    user: {
-        message: "Login successful",
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJ1c2VybmFtZSI6ImN3YmFycyIsImlhdCI6MTc0NjUyNjkwMywiZXhwIjoxNzQ2NTMwNTAzfQ.KqB1tQLCNAXtbgHelXcb7QY0RBQAtzHbl1FBqsoKRTw"
-    },
+    user: null,
     loginLoading: false,
     registerLoading: false,
+    registerError: null,
+    loginError: null,
 };
 
 const UsersSlice = createSlice({
@@ -30,6 +29,7 @@ const UsersSlice = createSlice({
             state.loginLoading = false;
         });
         builder.addCase(login.rejected, (state, { payload: error }) => {
+            state.loginError = error;
             state.loginLoading = false;
         });
         builder.addCase(register.pending, (state) => {
@@ -42,6 +42,7 @@ const UsersSlice = createSlice({
             state.registerLoading = false;
         });
         builder.addCase(register.rejected, (state, { payload: error }) => {
+            state.registerError = error;
             state.registerLoading = false;
         });
     },
@@ -49,6 +50,8 @@ const UsersSlice = createSlice({
         selectUser: (state) => state.user,
         selectLoginLoading: (state) => state.loginLoading,
         selectRegisterLoading: (state) => state.registerLoading,
+        selectLoginError: (state) => state.loginError,
+        selectRegisterError: (state) => state.registerError,
     },
 });
 
@@ -57,5 +60,7 @@ export const {
     selectUser,
     selectLoginLoading,
     selectRegisterLoading,
+    selectLoginError,
+    selectRegisterError,
 } = UsersSlice.selectors;
 export const { logout } = UsersSlice.actions;

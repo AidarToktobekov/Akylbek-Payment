@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
-import {Avatar, Button, Container, TextField, Typography} from '@mui/material';
+import {Alert, Avatar, Button, Container, TextField, Typography, Link} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {login} from '../../features/user/userThunk.js';
-import {selectLoginLoading, selectUser} from '../../features/user/userSlice.js';
+import {selectLoginError, selectLoginLoading, selectUser} from '../../features/user/userSlice.js';
 import LockIcon from '@mui/icons-material/Lock';
 import {deepPurple} from '@mui/material/colors';
+import './userLogin.css';
 
 const UserLogin = () => {
-    const user = useAppSelector(selectUser);
-    console.log(user);
     const dispatch = useAppDispatch();
     const loading = useAppSelector(selectLoginLoading);
+    const error = useAppSelector(selectLoginError);
     const navigate = useNavigate();
     const [state, setState] = useState({
         username: '',
@@ -67,6 +67,13 @@ const UserLogin = () => {
             >
                 Вход в систему
             </Typography>
+            {error?.error ? (
+                <Alert variant={'filled'} severity={"error"} sx={{
+                    my: 2,
+                }}>
+                    {error?.error}
+                </Alert>
+            ): null}
             <TextField
                 id="username"
                 name="username"
@@ -106,6 +113,15 @@ const UserLogin = () => {
             >
                 Логин
             </Button>
+            <Link href={"/sign-up"} underline="hover" sx={{
+                fontSize: '18px',
+                fontFamily: 'Roboto, sans-serif',
+                display: 'block',
+                margin: '15px 0 0',
+                textAlign: "center"
+            }}>
+                Зарегистрироваться
+            </Link>
         </Container>
     );
 };

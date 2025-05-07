@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
-import {Box, Button, Grid, Stack, TextField, Typography,} from '@mui/material';
+import {Alert, Box, Button, Grid, Link, Stack, TextField, Typography,} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {useAppDispatch} from "../../app/hooks.js";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.js";
 import {register} from "../../features/user/userThunk.js"
+import {selectRegisterError, selectRegisterLoading} from "../../features/user/userSlice.js";
 
 const UserRegister = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const loading = false;
+    const loading = useAppSelector(selectRegisterLoading);
+    const error = useAppSelector(selectRegisterError);
     const [state, setState] = useState({
         username: '',
         name: '',
@@ -38,7 +40,7 @@ const UserRegister = () => {
             };
 
             await dispatch(register(userMutation)).unwrap();
-            navigate('/');
+            navigate('/sign-in');
         } catch (e) {
             console.log(e);
         }
@@ -53,7 +55,7 @@ const UserRegister = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        maxWidth: '500px',
+                        maxWidth: '400px',
                         width: '100%',
                     }}
                 >
@@ -70,8 +72,14 @@ const UserRegister = () => {
                             mx: 'auto',
                         }}
                     >
-                        <Grid container direction="column" spacing={2}>
-                            <Grid>
+                        <Grid container direction="column" spacing={1}>
+                            {error?.error ? (
+                                <Alert variant={'filled'} severity={"error"} sx={{
+                                    my: 2,
+                                }}>
+                                    {error?.error}
+                                </Alert>
+                            ): null}
                                 <TextField
                                     required
                                     type="text"
@@ -84,8 +92,6 @@ const UserRegister = () => {
                                         width: '100%',
                                     }}
                                 />
-                            </Grid>
-                            <Grid>
                                 <TextField
                                     required
                                     type="text"
@@ -98,8 +104,6 @@ const UserRegister = () => {
                                         width: '100%',
                                     }}
                                 />
-                            </Grid>
-                            <Grid>
                                 <TextField
                                     required
                                     type="text"
@@ -112,8 +116,6 @@ const UserRegister = () => {
                                         width: '100%',
                                     }}
                                 />
-                            </Grid>
-                            <Grid>
                                 <TextField
                                     required
                                     type="text"
@@ -126,8 +128,6 @@ const UserRegister = () => {
                                         width: '100%',
                                     }}
                                 />
-                            </Grid>
-                            <Grid>
                                 <TextField
                                     required
                                     type="tel"
@@ -140,8 +140,6 @@ const UserRegister = () => {
                                         width: '100%',
                                     }}
                                 />
-                            </Grid>
-                            <Grid>
                                 <TextField
                                     required
                                     type="password"
@@ -154,7 +152,6 @@ const UserRegister = () => {
                                         width: '100%',
                                     }}
                                 />
-                            </Grid>
                         </Grid>
                         <Button
                             type="submit"
@@ -163,11 +160,28 @@ const UserRegister = () => {
                             sx={{
                                 mt: 3,
                                 mb: 2,
+                                width: '100%'
                             }}
+                            disabled={
+                                !state.username ||
+                                !state.password ||
+                                !state.name ||
+                                !state.phoneNumber ||
+                                !state.businessType ||
+                                !state.address
+                            }
                             loading={loading}
                         >
                             Сохранить
                         </Button>
+                        <Link href={"/sign-in"} underline="hover" sx={{
+                            fontSize: '18px',
+                            fontFamily: 'Roboto, sans-serif',
+                            display: 'block',
+                            margin: '15px 0 0'
+                        }}>
+                            Войти
+                        </Link>
                     </Box>
                 </Box>
             </Stack>
